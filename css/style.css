@@ -1,0 +1,58 @@
+body {
+    background-color: #313131;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+header {
+    font-family: 'Indie Flower', cursive;
+    font-size: 5em;
+    text-align: center;
+}
+
+.row {
+    padding: 15px;
+}
+
+#controls,
+#clock {
+    text-align: center;
+}
+
+.control-label {
+    font-size: 0.9em;
+}
+
+.control,
+.readout {
+    display: inline-block;
+    font-size: 2em;
+    margin: 0 5px 0 5px;
+}
+
+.clock-label {
+    font-size: 4em;
+    margin: 40px auto 50px auto;
+    width: 80%;
+}
+
+#clock {
+    border-radius: 50%;
+    border: solid 2px rgba(165, 246, 0, 0.81);
+    height: 300px;
+    width: 300px;
+    margin: 0 auto 0 auto;
+}
+
+.timer {
+    font-size: 4em;
+    margin: 50px auto 40px auto;
+}
+
+
+/*
+div {
+    border: solid 1px white;
+}
+*/

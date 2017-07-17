@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>FCC: Pomodoro Clock - v0.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet prefetch' href='https://use.fontawesome.com/42b46179c6.css'>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        Pomodoro Clock
+    </header>
+    <main class="container">
+        <div class="row" id="controls">
+            <div class="col-sm-2 col-sm-offset-4" id="break">
+                <div class="control-label">BREAK LENGTH</div>
+                <div class="control-entry">
+                    <div class="control">-</div>
+                    <div class="readout" id="break-readout">5</div>
+                    <div class="control">+</div>
+                </div>
+            </div>
+            <div class="col-sm-2" id="session">
+                <div class="control-label">SESSION LENGTH</div>
+                <div class="control-entry">
+                    <div class="control">-</div>
+                    <div class="readout" id="session-readout">25</div>
+                    <div class="control">+</div>
+                </div>
+            </div>
+        </div>
+        <div class=row id=clock-row>
+            <div class="" id="clock">
+                <div class="clock-label">Session</div>
+                <div class="timer">25</div>
+            </div>
+        </div>
+    </main>
+
+    <!--
+        <footer class="text-center">
+            <hr>
+            <p>Created by <a href="https://www.freecodecamp.com/kganguly" target="_blank">Kaushik Ganguly</a>.</p>
+        </footer>
+        -->
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
