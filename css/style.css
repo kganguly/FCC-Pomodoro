@@ -8,6 +8,7 @@ body {
 header {
     font-family: 'Indie Flower', cursive;
     font-size: 5em;
+    font-weight: normal;
     text-align: center;
 }
 
@@ -16,7 +17,7 @@ header {
 }
 
 #controls,
-#clock {
+#timer {
     text-align: center;
 }
 
@@ -31,13 +32,13 @@ header {
     margin: 0 5px 0 5px;
 }
 
-.clock-label {
+.timer-label {
     font-size: 4em;
     margin: 40px auto 50px auto;
     width: 80%;
 }
 
-#clock {
+#timer {
     border-radius: 50%;
     border: solid 2px rgba(165, 246, 0, 0.81);
     height: 300px;
@@ -45,7 +46,7 @@ header {
     margin: 0 auto 0 auto;
 }
 
-.timer {
+.timer-readout {
     font-size: 4em;
     margin: 50px auto 40px auto;
 }
