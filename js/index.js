@@ -2,17 +2,21 @@ var debug = true;
 
 var Timer = (function () {
     function Timer() {
-        this.isRunning = false;
+        this.sessionTimer = true;
+        this.running = false;
+        this.tid = null;
         this.minutes = 25;
         this.seconds = 0;
         this.break = 5;
         this.session = 25;
 
+
+
         this.isRunning = function () {
-            return this.isRunning;
+            return this.running;
         }
         this.toggleIsRunning = function () {
-            this.isRunning = isRunning ? false : true;
+            this.running = running ? false : true;
         }
         this.displayBreak = function () {
             $("#break .readout").html(this.break);
@@ -50,36 +54,57 @@ var Timer = (function () {
         this.getSession = function () {
             return this.session;
         }
+
+        function formatSeconds(n) {
+            return n > 9 ? "" + n : "0" + n;
+        }
         this.displayTime = function () {
-            $("#timer-readout").html(this.minutes);
+            $("#timer-readout").html(this.minutes + ":" + formatSeconds(this.seconds));
         }
         this.setTime = function (duration) {
             this.minutes = duration;
-            this.displayTime();
-        }
-        this.incrementTime = function () {
-            this.minutes++;
+            this.seconds = 0;
             this.displayTime();
         }
         this.decrementTime = function () {
-            this.minutes--;
+            if (this.seconds === 0) {
+                this.minutes--;
+                this.seconds = 59;
+            } else {
+                this.seconds--;
+            }
             this.displayTime();
         }
-        this.getTime = function () {
-            return this.minutes;
+        this.isTimeOut = function () {
+            return (this.minutes === 0 && this.seconds === 0);
         }
 
         this.startTimer = function () {
             function tick() {
                 that.decrementTime();
-                if (that.getTime() === 0) {
-                    clearTimeout(tid);
+                if (that.isTimeOut()) {
+                    if (that.sessionTimer) {
+                        if (debug) console.log("SWITCH: " + that.sessionTimer + " " + that.break+" " + that.tid);
+                        that.sessionTimer = false;
+                        that.setTime(that.break);
+                        that.tid = setTimeout(tick, 1000);
+                    } else {
+                        that.sessionTimer = true;
+                        that.setTime(that.session);
+                        that.tid = setTimeout(tick, 1000);
+                    }
                 } else {
-                    setTimeout(tick, 1000);
+                    that.tid = setTimeout(tick, 1000);
                 }
             }
+
             var that = this;
-            var tid = setTimeout(tick, 1000);
+            this.running = true;
+            that.tid = setTimeout(tick, 1000);
+        }
+        this.stopTimer = function () {
+            clearTimeout(this.tid);
+            this.running = false;
         }
     }
 
@@ -104,28 +129,41 @@ $(document).ready(function () {
 });
 
 function setDisplay() {
-    if (debug) console.log("DISPLAY", timer.getTime());
-    $("#break .readout").html(timer.getBreak());
-    $("#session .readout").html(timer.getSession());
-    $("#timer-readout").html(timer.getTime());
+    timer.displayBreak();
+    timer.displaySession();
+    timer.displayTime();
 }
 
 function setListeners() {
     $("#break .minus").click(function () {
-        timer.decrementBreak();
+        if (!timer.isRunning()) {
+            timer.decrementBreak();
+            if (!timer.sessionTimer) timer.setTime(timer.getBreak());
+        }
     });
     $("#break .plus").click(function () {
-        timer.incrementBreak();
+        if (!timer.isRunning()) {
+            timer.incrementBreak();
+            if (!timer.sessionTimer) timer.setTime(timer.getBreak());
+        }
     });
     $("#session .minus").click(function () {
-        timer.decrementSession();
-        timer.decrementTime();
+        if (!timer.isRunning()) {
+            timer.decrementSession();
+            if (timer.sessionTimer) timer.setTime(timer.getSession());
+        }
     });
     $("#session .plus").click(function () {
-        timer.incrementSession();
-        timer.incrementTime();
+        if (!timer.isRunning()) {
+            timer.incrementSession();
+            if (timer.sessionTimer) timer.setTime(timer.getSession());
+        }
     });
     $("#timer").click(function () {
-        timer.startTimer();
+        if (timer.isRunning()) {
+            timer.stopTimer();
+        } else {
+            timer.startTimer();
+        }
     });
 }
