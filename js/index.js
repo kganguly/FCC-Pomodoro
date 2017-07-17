@@ -5,12 +5,12 @@ var Timer = (function () {
         this.sessionTimer = true;
         this.running = false;
         this.tid = null;
-        this.minutes = 25;
-        this.seconds = 0;
-        this.break = 5;
-        this.session = 25;
-
-
+        this.minutes = null;
+        this.seconds = null;
+        this.break = 1;
+        this.breakColor = "red";
+        this.session = 1;
+        this.sessionColor = "rgba(165, 246, 0, 0.81)";
 
         this.isRunning = function () {
             return this.running;
@@ -59,6 +59,14 @@ var Timer = (function () {
             return n > 9 ? "" + n : "0" + n;
         }
         this.displayTime = function () {
+            if (this.sessionTimer) {
+                $(".timer-label").html("Session");
+                $("#timer").css("border-color", this.sessionColor);
+            } else {
+                $(".timer-label").html("Break!");
+                $("#timer").css("border-color", this.breakColor);
+            }
+
             $("#timer-readout").html(this.minutes + ":" + formatSeconds(this.seconds));
         }
         this.setTime = function (duration) {
@@ -82,20 +90,11 @@ var Timer = (function () {
         this.startTimer = function () {
             function tick() {
                 that.decrementTime();
-                if (that.isTimeOut()) {
-                    if (that.sessionTimer) {
-                        if (debug) console.log("SWITCH: " + that.sessionTimer + " " + that.break+" " + that.tid);
-                        that.sessionTimer = false;
-                        that.setTime(that.break);
-                        that.tid = setTimeout(tick, 1000);
-                    } else {
-                        that.sessionTimer = true;
-                        that.setTime(that.session);
-                        that.tid = setTimeout(tick, 1000);
-                    }
-                } else {
-                    that.tid = setTimeout(tick, 1000);
+                if (that.isTimeOut()) { //Switch timers on TimeOut
+                    that.switchTimer();
                 }
+                that.tid = setTimeout(tick, 1000);
+
             }
 
             var that = this;
@@ -105,6 +104,17 @@ var Timer = (function () {
         this.stopTimer = function () {
             clearTimeout(this.tid);
             this.running = false;
+        }
+
+        this.switchTimer = function () {
+            if (debug) console.log("SWITCH: " + timer.sessionTimer + " " + timer.break+" " + timer.tid);
+            if (timer.sessionTimer) {
+                timer.sessionTimer = false;
+                timer.setTime(timer.break);
+            } else {
+                timer.sessionTimer = true;
+                timer.setTime(timer.session);
+            }
         }
     }
 
@@ -131,7 +141,7 @@ $(document).ready(function () {
 function setDisplay() {
     timer.displayBreak();
     timer.displaySession();
-    timer.displayTime();
+    timer.setTime(timer.getSession());
 }
 
 function setListeners() {
