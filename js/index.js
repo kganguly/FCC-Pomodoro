@@ -153,7 +153,7 @@ var Timer = (function () {
 function Sound(src) {
     try {
         this.sound = document.createElement("audio");
-        this.sound.src = src;
+        this.src = src;
         this.sound.setAttribute("preload", "auto");
         this.sound.setAttribute("controls", "none");
         this.sound.style.display = "none";
@@ -210,8 +210,16 @@ function setListeners() {
     });
     $("#timer").click(function () {
         var alarm = timer.getAlarm();
-        alarm.play();
-        alarm.stop();
+        if (!alarm.sound.src) {
+            try {
+                alarm.play();
+                alarm.stop();
+                alarm.sound.src = alarm.src;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
         if (timer.isRunning()) {
             timer.stopTimer();
         } else {
