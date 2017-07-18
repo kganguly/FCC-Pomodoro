@@ -24,7 +24,7 @@ header {
     text-align: center;
 }
 
-.col-sm-2,
+.control-box,
 #timer {
     cursor: pointer;
 }
@@ -33,7 +33,7 @@ header {
     margin: 10px;
 }
 
-.col-sm-2 {
+.control-box {
     margin-top: 10px;
     margin-bottom: 10px;
 }
