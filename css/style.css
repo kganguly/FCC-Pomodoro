@@ -10,16 +10,32 @@ header {
     font-size: 5em;
     font-weight: normal;
     text-align: center;
+    line-height: 1;
+    padding-top: 10px;
 }
 
 .row {
-    padding: 15px;
+    padding: 0px;
+    margin: 25px auto 25px auto;
 }
 
 #controls,
 #timer {
     text-align: center;
+}
+
+.col-sm-2,
+#timer {
     cursor: pointer;
+}
+
+#controls {
+    margin: 10px;
+}
+
+.col-sm-2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .control-label {
@@ -58,4 +74,5 @@ header {
 div {
     border: solid 1px white;
 }
+
 */
