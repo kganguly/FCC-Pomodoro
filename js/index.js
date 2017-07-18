@@ -11,6 +11,7 @@ var Timer = (function () {
         this.breakColor = "red";
         this.session = 1;
         this.sessionColor = "rgba(165, 246, 0, 0.81)";
+        this.alarm = null;
 
         this.isRunning = function () {
             return this.running;
@@ -117,9 +118,9 @@ var Timer = (function () {
             clearTimeout(this.tid);
             this.running = false;
         }
-
         this.switchTimer = function () {
             if (debug) console.log("SWITCH: " + timer.sessionTimer + " " + timer.break+" " + timer.tid);
+            if (this.alarm) this.alarm.play();
             if (timer.sessionTimer) {
                 timer.sessionTimer = false;
                 timer.setTime(timer.break);
@@ -127,6 +128,9 @@ var Timer = (function () {
                 timer.sessionTimer = true;
                 timer.setTime(timer.session);
             }
+        }
+        this.setAlarm = function (alarm) {
+            if (alarm) this.alarm = alarm;
         }
     }
 
@@ -143,11 +147,31 @@ var Timer = (function () {
     };
 })();
 
+function Sound(src) {
+    try {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function () {
+            this.sound.play();
+        }
+        this.stop = function () {
+            this.sound.pause();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 var timer = Timer.getInstance();
 
 $(document).ready(function () {
     setDisplay()
     setListeners();
+    timer.setAlarm(new Sound("https://www.kganguly.com/media/A-Tone-His_Self-1266414414.mp3"));
 });
 
 function setDisplay() {
