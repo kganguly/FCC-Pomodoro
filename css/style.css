@@ -19,10 +19,12 @@ header {
 #controls,
 #timer {
     text-align: center;
+    cursor: pointer;
 }
 
 .control-label {
     font-size: 0.9em;
+    white-space: nowrap;
 }
 
 .control,

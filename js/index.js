@@ -30,7 +30,7 @@ var Timer = (function () {
             this.displayBreak()
         }
         this.decrementBreak = function () {
-            this.break--;
+            if (this.break > 1) this.break--;
             this.displayBreak()
         }
         this.getBreak = function () {
@@ -48,7 +48,7 @@ var Timer = (function () {
             this.displaySession();
         }
         this.decrementSession = function () {
-            this.session--;
+            if (this.session > 1) this.session--;
             this.displaySession();
         }
         this.getSession = function () {
@@ -59,14 +59,26 @@ var Timer = (function () {
             return n > 9 ? "" + n : "0" + n;
         }
         this.displayTime = function () {
-            if (this.sessionTimer) {
-                $(".timer-label").html("Session");
-                $("#timer").css("border-color", this.sessionColor);
-            } else {
-                $(".timer-label").html("Break!");
-                $("#timer").css("border-color", this.breakColor);
-            }
+            var label = null;
+            var color = null;
+            var percent = null;
 
+            if (this.sessionTimer) {
+                label = "Session";
+                color = this.sessionColor;
+                percent = Math.floor((((this.session * 60) - (this.minutes * 60 + this.seconds)) / (this.session * 60)) * 100 + 0.5);
+            } else {
+                label = "Break!";
+                color = this.breakColor;
+                percent = Math.floor((((this.minutes * 60 + this.seconds)) / (this.break * 60)) * 100 + 0.5);
+            }
+            var bgStyle = "linear-gradient(0deg, " + color + " " + percent + "%, transparent " + percent + "%)"
+            if (debug) console.log("BG: " + bgStyle);
+            $(".timer-label").html(label);
+            $("#timer").css("border-color", color);
+            $("#timer").css({
+                background: bgStyle
+            });
             $("#timer-readout").html(this.minutes + ":" + formatSeconds(this.seconds));
         }
         this.setTime = function (duration) {
