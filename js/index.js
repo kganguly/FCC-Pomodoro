@@ -132,6 +132,9 @@ var Timer = (function () {
         this.setAlarm = function (alarm) {
             if (alarm) this.alarm = alarm;
         }
+        this.getAlarm = function () {
+            return this.alarm;
+        }
     }
 
     var instance;
@@ -206,6 +209,9 @@ function setListeners() {
         }
     });
     $("#timer").click(function () {
+        var alarm = timer.getAlarm();
+        alarm.play();
+        alarm.stop();
         if (timer.isRunning()) {
             timer.stopTimer();
         } else {
