@@ -7,9 +7,9 @@ var Timer = (function () {
         this.tid = null;
         this.minutes = null;
         this.seconds = null;
-        this.break = 1;
+        this.break = 5;
         this.breakColor = "red";
-        this.session = 1;
+        this.session = 25;
         this.sessionColor = "rgba(165, 246, 0, 0.81)";
         this.alarm = null;
 
